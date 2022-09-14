@@ -16,10 +16,9 @@ export default function MoviePicker() {
     }, []);
 
     return (
-        <div className='d-flex justify-content-center align-items-center'>  
+        <div className='d-flex justify-content-center align-items-center mt-3'>  
             <label htmlFor="movieSelector">Pick a movie</label>
             <select id="movieSelector" className="form-select ms-3" aria-label="Movie selector" style={{"width":"fit-content","maxWidth":"400px"}}>
-                <option defaultValue>Open this select menu</option>
                 {reqData.map(
                     element => {
                         return (

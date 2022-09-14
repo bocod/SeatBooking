@@ -9,7 +9,7 @@ import SeatPicker from './components/SeatPicker/SeatPicker';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header bg-dark">
         <MoviePicker/>
         <SeatPicker/>
       </header>

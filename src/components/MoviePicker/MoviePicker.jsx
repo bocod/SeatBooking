@@ -16,17 +16,19 @@ export default function MoviePicker() {
     }, []);
 
     return (
-        <div className='d-flex justify-content-center align-items-center mt-3'>  
-            <label htmlFor="movieSelector">Pick a movie</label>
-            <select id="movieSelector" className="form-select ms-3" aria-label="Movie selector" style={{"width":"fit-content","maxWidth":"400px"}}>
-                {reqData.map(
-                    element => {
-                        return (
-                            <option key={element.Name} value={element}>{`${element.Name} ($${element.Price})`}</option>
-                        )
-                    }
-                )}
-            </select>
-        </div>
+        <>
+            <div className='d-flex justify-content-center align-items-center mt-3'>  
+                <label htmlFor="movieSelector">Pick a movie</label>
+                <select id="movieSelector" className="form-select ms-3" aria-label="Movie selector" style={{"width":"fit-content","maxWidth":"400px"}}>
+                    {reqData.map(
+                        element => {
+                            return (
+                                <option key={element.Name} value={element}>{`${element.Name} ($${element.Price})`}</option>
+                            )
+                        }
+                    )}
+                </select>
+            </div>
+        </>
     )
 }

@@ -1,10 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 
-export default function SeatPicker() {
+export default function SeatPicker(filmData) {
+
+    
+    console.log( filmData);
 
     const [reqData, setReqData] = useState([]);
     const [seatSelection, setSeatSelection] = useState([]);
+    const { Name, Price } = filmData[0];
 
     useEffect(() => {
         fetch("http://localhost:3030/seats-data")
@@ -114,6 +118,20 @@ export default function SeatPicker() {
                         }
                     )}
                 </div>
+            </div>
+            <div>
+                { seatSelection.length === 0 ? 
+                    <p>
+                        "Please select a seat..."
+                    </p> 
+                : 
+                    <p> You have selected 
+                        <span className='text-info fw-bold'> {seatSelection.length} </span>
+                        <span>{seatSelection.length === 1 ? 'seat' : 'seats'} </span>
+                        for a price of
+                        <span className='text-info fw-bold'> ${Price * seatSelection.length}</span>
+                    </p>
+                }
             </div>
         </div>
     )

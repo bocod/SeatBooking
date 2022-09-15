@@ -1,4 +1,18 @@
-# Getting Started with Create React App
+# SeatBooking
+
+This frontend repository works together with it's backend.
+
+[By clicking here you can take a look to the backend...](https://github.com/bocod/SeatBookingBE)
+
+This app main objective is to choose a movie, select a seat and see the total price to pay.
+
+This is posible, thanks to the use of reactHooks working all along and across the app.
+
+By the other hand, the frontend wouldn't do anything if it weren't thanks to node and express.
+
+Hope you like it!
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

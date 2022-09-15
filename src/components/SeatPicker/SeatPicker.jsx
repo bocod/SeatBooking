@@ -75,7 +75,7 @@ export default function SeatPicker(props) {
                 className={seatColorPicker()}
                 key={status.SeatNumber+index}
                 style={{
-                    width: "30px",
+                    width: "24px",
                     height: "30px",
                     margin: "5px",
                     borderRadius: "100% 100% 0 0"
@@ -94,7 +94,7 @@ export default function SeatPicker(props) {
                 }}>
                     <span className="screen" style={{
                         "background": "white",
-                        "padding": "50px 225px",
+                        "padding": "50px 182px",
                         "width": "300px",
                         "height": "150px",
                         "clipPath": "polygon(0 0, 100% 0, 95% 100%, 5% 100%)",
@@ -106,24 +106,24 @@ export default function SeatPicker(props) {
 
     const alertError = () => {
         return (
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div className="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Error: </strong> {error}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={e => {setError('')}}></button>
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={e => {setError('')}}></button>
             </div>
         )
     };
 
     return (
         <>
-            <div className='mt-3 d-flex flex-column align-items-center' style={{"width":"500px"}}> 
-                <div className='mt-3 d-flex justify-content-between' style={{"width":"400px"}}>
+            <div className='mt-3 d-flex flex-column align-items-center'> 
+                <div className='mt-3 d-flex justify-content-evenly' style={{"width":"375px"}}>
                     <div className='d-flex align-items-center'>{seatIcon(notAssigned)} <p className='m-0 ps-2 text-secondary'><abbr title="Not assigned">N/A</abbr></p></div>
                     <div className='d-flex align-items-center'>{seatIcon(selected)} <p className='m-0 ps-2 text-secondary'> Selected</p></div>
                     <div className='d-flex align-items-center'>{seatIcon(occupied)} <p className='m-0 ps-2 text-secondary'> Occupied</p></div>
                 </div>
                 <div className='mt-5 bg-dark w-100'>
                     {screen()}
-                    <div className='m-auto mt-5 mb-5 pt-3 d-flex flex-wrap justify-content-between align-items-center' style={{"width":"400px"}}>
+                    <div className='m-auto mt-5 mb-5 pt-3 d-flex flex-wrap justify-content-between align-items-center' style={{"width":"340px"}}>
                         {reqData.map(
                             (element, index) => {
                                 return (

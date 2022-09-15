@@ -1,14 +1,20 @@
-import React from 'react'
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function SeatPicker(filmData) {
-
-    
-    console.log( filmData);
-
+export default function SeatPicker(props) {
     const [reqData, setReqData] = useState([]);
     const [seatSelection, setSeatSelection] = useState([]);
-    const { Name, Price } = filmData[0];
+    const [filmPrice, setFilmPrice] = useState('');
+    const [error, setError] = useState('');
+
+    const notAssigned = { SeatNumber: "A", Available: true};
+    const selected = { SeatNumber: "B", Available: "selected"};
+    const occupied = { SeatNumber: "C", Available: false};
+
+    const filmSelection = (JSON.parse(props.filmSelected));
+
+    useEffect(()=>{
+        setFilmPrice(filmSelection.Price)
+    },[filmSelection]);
 
     useEffect(() => {
         fetch("http://localhost:3030/seats-data")
@@ -24,12 +30,17 @@ export default function SeatPicker(filmData) {
 
         const seatNum = Number(status.SeatNumber);
         const isSelected = (seatSelection.find(item => seatNum === item));
-
-        if(isNaN(seatNum)){
-            return console.log(false, 'you cannot watch the movie on the corridor!!!');
+        if(filmSelection.Name === 'Unselected'){
+            return (
+                setError('You must select a film first...')
+            )
+        } else if(isNaN(seatNum)){
+            return (
+                setError('You cannot watch the movie on the corridor!!!')
+            )
         } else {
             if(status.Available === false){
-                return console.log(false, 'that seat is already booked!!!');
+                return setError('That seat is already booked!!!');
             }
             if(isSelected === undefined){
                 event.target.className = 'bg-info';
@@ -44,7 +55,7 @@ export default function SeatPicker(filmData) {
                 console.log(seatSelection);
             }
         }
-    }
+    };
 
     const seatIcon = (status, index) => {
         const seatColorPicker = () => {
@@ -73,7 +84,7 @@ export default function SeatPicker(filmData) {
             >
             </div>
         )
-    }
+    };
 
     const screen = () => {
         return (
@@ -91,33 +102,38 @@ export default function SeatPicker(filmData) {
                 </span>
             </div>
         )
-    }
+    };
 
-    const notAssigned = { SeatNumber: "A", Available: true};
-    const selected = { SeatNumber: "B", Available: "selected"};
-    const occupied = { SeatNumber: "C", Available: false};
+    const alertError = () => {
+        return (
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Error: </strong> {error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={e => {setError('')}}></button>
+            </div>
+        )
+    };
 
     return (
-        <div className='mt-3 d-flex flex-column align-items-center' style={{"width":"500px"}}> 
-            <div className='mt-3 d-flex justify-content-between' style={{"width":"400px"}}>
-                <div className='d-flex align-items-center'>{seatIcon(notAssigned)} <p className='m-0 ps-2 text-secondary'> N/A</p></div>
-                <div className='d-flex align-items-center'>{seatIcon(selected)} <p className='m-0 ps-2 text-secondary'> Selected</p></div>
-                <div className='d-flex align-items-center'>{seatIcon(occupied)} <p className='m-0 ps-2 text-secondary'> Occupied</p></div>
-            </div>
-            <div className='mt-5 bg-dark w-100'>
-                {screen()}
-                <div className='m-auto mt-5 mb-5 pt-3 d-flex flex-wrap justify-content-between align-items-center' style={{"width":"400px"}}>
-                    {reqData.map(
-                        (element, index) => {
-
-                            return (
-
-                                seatIcon(element, index)
-       
-                            )
-                        }
-                    )}
+        <>
+            <div className='mt-3 d-flex flex-column align-items-center' style={{"width":"500px"}}> 
+                <div className='mt-3 d-flex justify-content-between' style={{"width":"400px"}}>
+                    <div className='d-flex align-items-center'>{seatIcon(notAssigned)} <p className='m-0 ps-2 text-secondary'><abbr title="Not assigned">N/A</abbr></p></div>
+                    <div className='d-flex align-items-center'>{seatIcon(selected)} <p className='m-0 ps-2 text-secondary'> Selected</p></div>
+                    <div className='d-flex align-items-center'>{seatIcon(occupied)} <p className='m-0 ps-2 text-secondary'> Occupied</p></div>
                 </div>
+                <div className='mt-5 bg-dark w-100'>
+                    {screen()}
+                    <div className='m-auto mt-5 mb-5 pt-3 d-flex flex-wrap justify-content-between align-items-center' style={{"width":"400px"}}>
+                        {reqData.map(
+                            (element, index) => {
+                                return (
+                                    seatIcon(element, index)
+                                )
+                            }
+                        )}
+                    </div>
+                </div>
+                {error ? alertError() : ""}
             </div>
             <div>
                 { seatSelection.length === 0 ? 
@@ -129,10 +145,10 @@ export default function SeatPicker(filmData) {
                         <span className='text-info fw-bold'> {seatSelection.length} </span>
                         <span>{seatSelection.length === 1 ? 'seat' : 'seats'} </span>
                         for a price of
-                        <span className='text-info fw-bold'> ${Price * seatSelection.length}</span>
+                        <span className='text-info fw-bold'> ${(Number(filmPrice) * Number(seatSelection.length)).toFixed(2)}</span>
                     </p>
                 }
             </div>
-        </div>
+        </>
     )
 }
